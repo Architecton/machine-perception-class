@@ -1,3 +1,8 @@
+% Exercise 1 - Assignment 1 %
+
+% (a) %%
+% Read the image from the file umbrellas.jpg and display it.
+
 A = imread('umbrellas.jpg');	% Read image into matrix A
 figure(1); clf; imagesc(A);		% Create new figure, clear it, show image.
 figure(2); clf; imshow(A);
@@ -8,6 +13,8 @@ figure(2); clf; imshow(A);
 % functions used to display the image. We will demonstrate the difference
 % between them later on.
 
+% (b) %%
+
 % Convert the color image into a grayscale one by averaging all three
 % channels.
 
@@ -17,6 +24,8 @@ A_gray = uint8(Ad(:,:,1) + Ad(:,:,2) + Ad(:,:,3) / 3.0);
 figure; imshow(A_gray);
 
 % (A similar effect can be achieved by using the built-in rgb2gray function)
+
+% (c) %%
 
 % Cut out a rectangular sub-image and display it as a new image. Mark the
 % same region in the original image by settig its thrid (blue) color
@@ -58,10 +67,10 @@ figure; imshow(A4);					% Notice this plot is darker.
 
 % Explanation from MATLAB help:
 
-% TODO
+% imshow is the fundamental display function in MATLAB, optimizing figure,
+% axes, and image object property setting for image display whereas imagesc
+% does not do any of this.
 %
-%
-%
-%
+% imagesc scales the data to use the full colormap whereas imshow does not.
 
 % #####
