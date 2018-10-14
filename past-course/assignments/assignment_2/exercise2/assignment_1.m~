@@ -219,11 +219,12 @@ histograms_weighted = histograms;
 % Go over the histograms 
 for r = 1:size(histograms_weighted, 1)
 	histograms_weighted(r, :) = histograms_weighted(r, :) .* weights;
-	histograms_weighted(r, :) = histograms_weighted(r, :) / sum(histograms_weighted(r, :));
 end
 
+histograms_weighted = histograms_weighted / sum(histograms_weighted);
+
 % Compare retrieval process
-comparison_results = compare_retrieval(histograms, histograms_weighted);
+comparison_results = compare_retrieval(histograms, histograms_weighted, files);
 
 % Explain results.
 disp('## UNWEIGHTED HISTOGRAMS COMPARSION RESULTS: ##')
