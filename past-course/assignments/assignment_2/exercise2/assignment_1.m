@@ -277,3 +277,9 @@ disp(comparison_results(12, :))
 disp('Indices of closest images to reference using intersect distance:')
 disp(comparison_results(16, :))
 disp('#############################################')
+
+% Interpretation:
+
+%
+% TODO
+%
