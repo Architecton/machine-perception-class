@@ -1,32 +1,36 @@
 % Parse images
 Candy_image = imread('candy.jpg');
-Candy_image_gray = rgb2gray(Candy_image);
 
-% Adjust image contrast for better tresholding.
-Candy_image_gray = imadjust(Candy_image_gray, [0.78, 0.92],[]);
-	
-% Compute threshold using Otsu's method.
-thresh = otsu(Candy_image_gray);
+% Compute tresholds for all color channels.
+t1 = otsu(Candy_image(:,:,1));
+t2 = otsu(Candy_image(:,:,2));
+t3 = otsu(Candy_image(:,:,3));
 
-% Get mask and process it using erosion/dilation.
-Raw_mask = Candy_image_gray > thresh;
-SE = strel('disk', 11);
-Processed_mask = imclose(Raw_mask, SE);
+BW1 = Candy_image(:,:,1) > t1;  % Apply tresholding.
+BW2 = Candy_image(:,:,2) > t2;
+BW3 = Candy_image(:,:,3) > t3;
+
+% Create structuring element.
+str = strel('disk', 2);
+% Create mask by combining masks for every color channel. Perform morphological processing with
+% structuring operations on each.
+mask = imclose(BW1, str) & imclose(BW2, str) & imclose(BW3, str);
+mask = imerode(mask, str);
 
 % Apply mask.
-Res = immask(Candy_image, not(Processed_mask));
+Res = immask(Candy_image, not(mask));
 
 % Plot image.
 imshow(Candy_image); hold on;
 
 % Selection and plot marking demo. %%%
-sel = ginput(1)
+sel = ginput(1);
 
 % If selected point which is on candy (Mask value at indices is 0)
-if Processed_mask(floor(sel(2)), floor(sel(1))) == 0
+if mask(floor(sel(2)), floor(sel(1))) == 0
 	
 	% Get connected regions.
-	[Labeled_mask, num_regions] = bwlabel(not(gpuArray(Processed_mask)));
+	[Labeled_mask, num_regions] = bwlabel(not(gpuArray(mask)));
 	
 	% Compute average colors of connected regions. %%
 	
@@ -36,7 +40,7 @@ if Processed_mask(floor(sel(2)), floor(sel(1))) == 0
 		% Find row and column coordinates of next region.
 		[row_coordinates, column_coordinates] = find(Labeled_mask == region_index);
 		% Find indices of region.
-		idx = sub2ind(size(Processed_mask), row_coordinates, column_coordinates);
+		idx = sub2ind(size(mask), row_coordinates, column_coordinates);
 		
 		% Average the colors in the found pixels and save to recording
 		% vector.

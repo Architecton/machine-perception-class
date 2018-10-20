@@ -39,7 +39,7 @@ axis equal; axis tight; title('Filtered');
 
 
 % (c) %%
-% Implement a nonlinear median lter that has also been mentioned at the lectures. In
+% Implement a nonlinear median filter that has also been mentioned at the lectures. In
 % comparison Gaussian lter computes a locally weighted average values to compute
 % a weighted mean of the signal, the median lter sorts the signal values in the given
 % filter window and uses the middle value of the sorted sequence (a median) as a local
@@ -51,9 +51,25 @@ axis equal; axis tight; title('Filtered');
 % filter that you have implemented. Set the parameters of the lters that they would
 % achieve the best reconstruction result.
 
+% see simple_median.m
+
+% Testing the implementation - code from instructions:
+x = [zeros(1, 14), ones(1, 11), zeros(1, 15)]; % Input signal
+xc = x; xc(11) = 5; xc(18) = 5; % Corrupted signal
+figure;
+subplot(1, 4, 1); plot(x); axis([1, 40, 0, 7]); title('Input');
+subplot(1, 4, 2); plot(xc); axis([1, 40, 0, 7]); title('Corrupted');
+g = gauss(1);
+x_g = conv(xc, g, 'same');
+x_m = simple_median(xc, 5);
+subplot(1, 4, 3); plot(x_g); axis([1, 40, 0, 7]); title('Gauss');
+subplot(1, 4, 4); plot(x_m); axis([1, 40, 0, 7]); title('Median');
+
 % Question: Which filter performs better at this specic task? In comparison to
-% Gaussian lter that can be applied multiple times in any order, does the order
+% Gaussian filter that can be applied multiple times in any order, does the order
 % matter in case of median lter? What is the name of lters like this?
+
+% TODO
 
 
 % (d) %%
@@ -65,10 +81,27 @@ axis equal; axis tight; title('Filtered');
 %filter using the O(·) notation. (in the median lter we use the quicksort algorithm to
 % perform sorting.
 
+% See simple_median2 for implementation.
+% Testing the implementation:
+L = rgb2gray(imread('lena.png'));	% Parse image.
+Lns = imnoise(L,'salt & pepper');	% Add noise.
+Lng = imnoise(I,'gaussian');
+figure;								% Display results of filtering.
+subplot(2, 3, 1); imshow(Lng); title('Gaussian noise');
+subplot(2, 3, 2); imshow(imgaussfilt(Lng, 2)); title('Gauss Filtered');
+subplot(2, 3, 3); imshow(simple_median2(Lng, 3)); title('Median Filtered');
+
+subplot(2, 3, 4); imshow(Lns); title('Salt and pepper');
+subplot(2, 3, 5); imshow(imgaussfilt(Lns, 2)); title('Gauss Filtered');
+subplot(2, 3, 6); imshow(simple_median2(Lns, 3)); title('Median Filtered');
+
 % (e) %%
 % (5 points) Implement the hybrid image approach that was presented at lectures.
-% To do this you also have to implement the Laplacian lter, lter two images (one
-% with Gaussian and one with Laplacian lter) and combine them together. You can
+% To do this you also have to implement the Laplacian filter, filter two images (one
+% with Gaussian and one with Laplacian filter) and combine them together. You can
 % use images cat1.jpg and cat2.jpg as a reference since they are both of the same
 % size. Do not convert them to grayscale, simply apply the same operations to all three
 % channels and display the result as a color image.
+
+
+lap
