@@ -30,7 +30,7 @@ sel = ginput(1);
 if mask(floor(sel(2)), floor(sel(1))) == 0
 	
 	% Get connected regions.
-	[Labeled_mask, num_regions] = bwlabel(not(gpuArray(mask)));
+	[Labeled_mask, num_regions] = bwlabel(not(mask));
 	
 	% Compute average colors of connected regions. %%
 	
