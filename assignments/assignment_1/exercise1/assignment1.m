@@ -17,10 +17,10 @@ figure(2); clf; imshow(A);
 
 % Convert the color image into a grayscale one by averaging all three
 % channels.
-
+input('Press enter to close all figures and continue.'); close all;
 Ad = double(A);
-[h, w, d] = size(A)
-A_gray = uint8(Ad(:,:,1) + Ad(:,:,2) + Ad(:,:,3) / 3.0);
+[h, w, d] = size(A);
+A_gray = uint8(Ad(:,:,1) + Ad(:,:,2) + Ad(:,:,3) / 3.0);  % Change image to unsigned 8-bit.
 figure; imshow(A_gray);
 
 % (A similar effect can be achieved by using the built-in rgb2gray function)
@@ -30,7 +30,7 @@ figure; imshow(A_gray);
 % Cut out a rectangular sub-image and display it as a new image. Mark the
 % same region in the original image by settig its thrid (blue) color
 % channel to 0 and displaying the modified image.
-
+input('Press enter to close all figures and continue.'); close all;
 A1 = A;
 A1(130:260, 240:450, 3) = 0;	% Set blue channel in marked region to zero.
 figure;
@@ -57,7 +57,7 @@ imshow(A3);
 % results of displaying this new image.
 
 % #####
-
+input('Press enter to close all figures and continue.'); close all;
 A4 = rgb2gray(A);					% Convert to grayscale image.
 A4 = uint8(63/255 .* double(A4));	% Multiply by appropriate multiplication factor
 
