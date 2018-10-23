@@ -1,3 +1,7 @@
+% function [] = compare_hist(file_name, nbins)
+%
+% Function used for visualizing the differences between user-defined myhist function
+% results and the built-in MATLAB hist function.
 function [] = compare_hist(file_name, nbins)
 	% Parse image
 	I = rgb2gray(imread(file_name));

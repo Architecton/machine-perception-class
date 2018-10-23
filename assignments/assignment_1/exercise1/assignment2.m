@@ -69,8 +69,18 @@ compare_hist('eagle.jpg', nbins);
 % (e) (10 points) Test myhist function on images (three or more) of the
 % same scene in different lighting conditions. Visualize the histograms for
 % all images for different number of bins and interpret the results.
+input('Press enter to close all figures and continue.'); close all;
+LD_images = {rgb2gray(imread('flask_light.jpg')), rgb2gray(imread('flask_dark.jpg')), rgb2gray(imread('book_light.jpg')), rgb2gray(imread('book_dark.jpg')), rgb2gray(imread('shoes_light.jpg')), rgb2gray(imread('shoes_dark.jpg')), rgb2gray(imread('pencilcase_light.jpg')), rgb2gray(imread('pencilcase_dark.jpg'))};
 
-% TODO CANDLE
+% Set number of bins
+NBINS = 10;
+
+% Visualize results.
+for idx = 1:2:length(LD_images)
+	figure;
+	visualize_ld_pair(LD_images{idx}, LD_images{idx +1}, NBINS);
+end
+
 
 % (f) Using the knowledge about the construction of histograms you can now
 % implement a simple automatic thresholding algorithm called Otsu's method

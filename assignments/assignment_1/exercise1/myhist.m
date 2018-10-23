@@ -1,3 +1,7 @@
+% function [H, bins] = myhist(I, nbins) 
+%
+% Compute histogram of image I using nbins bins. Return the bins and the
+% values of the bins.
 function [H, bins] = myhist(I, nbins)
 	I = reshape(I, 1, numel(I));	% Reshape image to 1-D vector.
 	H = zeros(1, nbins);			% Initialize histogram (all zeros).
