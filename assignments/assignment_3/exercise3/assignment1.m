@@ -88,7 +88,38 @@ end
 % histogram based retrieval.
 input('Press enter to close all figures and continue.'); close all;
 
-% see function get_gradient_feature
-% For loading images and computing distances, reuse code from last exercise
-% session.
+SIGMA = 2;
+% Get matrix of histograms and cell array of image file names.
+files = load_database_filenames('images');
+% List all applicable distance measure specifiers for the
+% compare_histograms function.
+distance_meas = {'l2', 'chi2', 'hellinger', 'intersect'};
+% Allocate matrix for storing distances. Each row stores distances for each
+% comparison measure type.
+distances = zeros([length(distance_meas), length(files)]);
 
+% Get reference feature.
+reference = get_gradient_feature(rgb2gray(imread(files{20})), SIGMA);
+
+% Compute distances of images to reference feature.
+for idx = 1:length(files)
+	for meas = 1:length(distance_meas)
+		feature_comp = get_gradient_feature(rgb2gray(imread(files{20})), SIGMA);
+		distances(meas, idx) = compare_features(reference, feature_comp, distance_meas{meas});
+	end
+end
+
+% Sort distances and get permutation of original indices.
+[distances, perms] = sort(distances, 2);
+
+% Set limit for how many images to display (displaying next lim closest matching images)
+lim = 6;
+% Go over measurement specifiers and plot 6 most similar by this measure.
+for meas = 1:length(distance_meas)
+	figure;
+	for k = 1:lim
+		subplot(1, lim, k);
+		imshow(imread(files{perms(meas, k)}));
+		title('Image ' + string(perms(meas, k)));
+	end
+end
