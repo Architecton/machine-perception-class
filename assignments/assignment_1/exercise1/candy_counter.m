@@ -17,8 +17,12 @@ str = strel('disk', 2);
 mask = imclose(BW1, str) & imclose(BW2, str) & imclose(BW3, str);
 mask = imerode(mask, str);
 
+% imagesc(mask); colormap gray;
+
 % Apply mask.
 Res = immask(Candy_image, not(mask));
+
+% imshow(Res);
 
 % Plot image.
 imshow(Candy_image); hold on;

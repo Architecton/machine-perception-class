@@ -1,9 +1,8 @@
-% function [Ie] = hysteresis_tresh(I, sigma, thigh, tlow)
+% function [Ie] = hysteresis_tresh(Imag, thigh, tlow)
 %
 % Apply histeresis tresholding to image I and return result.
-function [Ie] = hysteresis_tresh(I, sigma, thigh, tlow)
-	% Get gradient magnitude.
-	Imag = gradient_magnitude(I, sigma);
+function [Ie] = hysteresis_tresh(Imag, thigh, tlow)
+
 	% Get regions that are above the high treshold.
 	high_mask = Imag>thigh; 
 	% Label regions that pass the low treshold.

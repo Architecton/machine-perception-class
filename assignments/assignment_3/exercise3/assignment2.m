@@ -56,5 +56,16 @@ nonmaxima_suppresion_comparison
 % for connected components in which all pixel values are above t_{low} and at least one
 % value is also above I_{high} , where t_{low} < t_{high}. Any innovative solution to this task will
 % be accepted if it avoids explicit loops whenever possible.
+input('Press enter to close all figures and continue.'); close all;
 
-
+% TODO: why don't the results match with example in the instructions??
+% See hysteresis_tresh.m and findedges3.m
+I = rgb2gray(imread('museum.jpg'));
+figure; subplot(2, 2, 1);
+imshow(I); title('original');
+Ie1 = findedges(I, 1, 50);
+subplot(2, 2, 2); imagesc(Ie1); colormap gray; title('tresholded (t = 50)');
+Ie2 = findedges2(I, 1);
+subplot(2, 2, 3); imagesc(Ie2); colormap gray; title('Nonmax. supp. (t = 50)');
+Ie3 = findedges3(I, 1, 50, 20);
+subplot(2, 2, 4); imagesc(Ie3); colormap gray; title('Hysteresis (high = 50, low = 20)');
