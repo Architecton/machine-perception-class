@@ -20,6 +20,7 @@
 % The kernel forms the bell shape and resembles a normal/Gaussian
 % distribution.
 
+g = load('kernel.txt');
 sum(g)
 
 % The sum of the values is equal to 1, so it can be regarded as a
@@ -42,6 +43,7 @@ plot(1:length(Ig), Ig, 'r');
 % is already included with Matlab/Octave. In what way does the result differ from
 % the result of the function simple_convolution(I, g)? What is the cause of this?
 
+input('Press enter to close all figures and continue.'); close all;
 % Plotting the results using the MATLAB convolution function.
 Ig_ML = conv(I, g, 'same');
 subplot(1, 2, 2);
@@ -71,6 +73,7 @@ abs(Ig - Ig_ML) < 1e-12
 % Generate kernel for sigma = 2 and make sure that the sum of its elements is 1 and that
 % it is similar in shape to the kernel, stored in file kernel.txt. Plot Gaussian kernels
 % for values of sigma = 0.5, 1, 2, 3, 4 on the same figure.
+input('Press enter to close all figures and continue.'); close all;
 
 sigma_vals = [0.5, 1, 2, 3, 4];			% Define values for sigma.
 plot_style = {'b','k','r', 'g', 'y'};	% Make cell array of plot styles.
@@ -90,7 +93,7 @@ legend(legend_info);										% Plot legend.
 % on the signals and your convolution code, but the important part here is your un-
 % derstanding of the general idea of convolution.
 
-% TODO
+% See notes.
 
 % The main advantage of convolution in comparison to correlation is associativity of
 % operations. This allows us to pre-convolve multiple kernels instead of performing
@@ -100,6 +103,8 @@ legend(legend_info);										% Plot legend.
 % For the second k, try switch the order of kernels. Finally, use the same input signal
 % and convolve it with a kernel that is a product of convolution k1 ∗ k2 . Plot all three
 % results and compare them.
+
+input('Press enter to close all figures and continue.'); close all;
 
 % Load signal vector.
 signal = load('signal.txt');
@@ -126,7 +131,3 @@ subplot(1, 4, 4);
 r3 = conv(I, conv(k1, k2, 'same'), 'same');
 plot(1:length(r3), r3);
 title('s * (k1 * k2)')
-
-
-
-

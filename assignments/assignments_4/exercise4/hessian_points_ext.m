@@ -1,4 +1,4 @@
-% function I_hess = hessian_points_ext(I, sigma)
+% function [y, x] = hessian_points_ext(I, sigma, treshold)
 %
 % Find hessian determinants for all pixels on image and return x and y
 % coordinates of those that are larger than all their neighbors and that

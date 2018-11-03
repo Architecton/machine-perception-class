@@ -43,7 +43,7 @@ myhist3_plotter(Umbrellas, H);
 % see compare_histograms.m for implementation
 
 % (e) Test your function.
-
+input('Press enter to close all figures and continue.'); close all;
 % Parse images.
 O1 = imread('images/object_01_1.png');
 O2 = imread('images/object_02_1.png');
@@ -134,6 +134,7 @@ disp('Intersection distance between histograms H1 and H3 is ' + string(d_interse
 % values). Plot the corresponding histograms in the same figure as well. Visualize
 % results for all four distance measures that you have implemented.
 
+input('Press enter to close all figures and continue.'); close all;
 % Get matrix of histograms and cell array of image file names.
 [histograms, files] = load_histogram_database('images', 8);
 % List all applicable distance measure specifiers for the
@@ -171,11 +172,17 @@ for meas = 1:length(distance_meas)
 end
 
 % Question: Use 8 bins per color channel  which distance measure is in your opinion
-% best suited for the specic task (elaborate your answer)? How does the retrieved
+% best suited for the specific task (elaborate your answer)? How does the retrieved
 % sequence change if we change the number of histogram bins (e.g. 16 or 32 )? Does
 % the time required to perform the operation also change?
 
-% TODO
+% The best performance is achieved using Hellinger distance as it is most
+% suited for the task of robustly identifying visually similar images.
+%
+% The last two retrieved images change to pill bottles if we increase the bins to 16 or 32. 
+% The computational time rises significantly with the increase in the
+% number of bins.
+
 
 % (g) A handy tool for distance visualization is to plot a graph that displays image in-
 % dices on the x axis and a distance to the reference image on y axis. Using this
@@ -202,6 +209,7 @@ end
 % weighted and unweighted histograms (check which are the most similar images, and
 % what are their distances to the reference image). Write down your observations. In
 % which ways did the weighting improve the retrieval results?
+input('Press enter to close all figures and continue.'); close all;
 
 sum_histograms = sum(histograms, 1);					% Sum up the histograms and normalize.
 sum_histograms = sum_histograms/sum(sum_histograms);
@@ -211,7 +219,7 @@ disp('Maximum relative frequency in histogram is ' + string(max_freq) + ' at ind
 
 % We will compute the weights using the exponential function.
 % Compute weight for each bin
-LAMBDA = 3.7;	% Set lambda constant.
+LAMBDA = 50;	% Set lambda constant.
 weights = arrayfun(@(x) exp(-LAMBDA*x), sum_histograms);
 
 % Apply weights to histogram.
@@ -279,7 +287,7 @@ disp(comparison_results(16, :))
 disp('#############################################')
 
 % Interpretation:
-
-%
-% TODO
-%
+% The weights put more emphasis on colors that determine a particular image
+% better - colors that are not shared as much between images. This puts
+% less emphasis the shared black background and more emphsasis on the
+% colors of the objects.

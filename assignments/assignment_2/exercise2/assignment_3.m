@@ -31,16 +31,19 @@ axis equal; axis tight; title('Filtered');
 
 % Question: Which noise is better removed using the Gaussian filter?
 
+% TODO
+
 % (b) %%
 % Another useful filter that you have heard about at the lectures is sharpening filter.
 %
 % Look for its formulation in the slides, implement it and test it on image museum.jpg .
 % What do you notice?
 
+% TODO
 
 % (c) %%
 % Implement a nonlinear median filter that has also been mentioned at the lectures. In
-% comparison Gaussian lter computes a locally weighted average values to compute
+% comparison Gaussian filter computes a locally weighted average values to compute
 % a weighted mean of the signal, the median lter sorts the signal values in the given
 % filter window and uses the middle value of the sorted sequence (a median) as a local
 % result. Implement a simple median lter as a function simple_median , that takes
@@ -53,6 +56,7 @@ axis equal; axis tight; title('Filtered');
 
 % see simple_median.m
 
+input('Press enter to close all figures and continue.'); close all;
 % Testing the implementation - code from instructions:
 x = [zeros(1, 14), ones(1, 11), zeros(1, 15)]; % Input signal
 xc = x; xc(11) = 5; xc(18) = 5; % Corrupted signal
@@ -67,20 +71,21 @@ subplot(1, 4, 4); plot(x_m); axis([1, 40, 0, 7]); title('Median');
 
 % Question: Which filter performs better at this specic task? In comparison to
 % Gaussian filter that can be applied multiple times in any order, does the order
-% matter in case of median lter? What is the name of lters like this?
+% matter in case of median filter? What is the name of filters like this?
 
 % TODO
 
 
 % (d) %%
-% (5 points) Implement a 2 -D version of the median lter and test it on an im-
+% Implement a 2 -D version of the median filter and test it on an im-
 % age, corrupted by a Gaussian noise as well as the salt-and-pepper noise. Compare
 % the results with the Gaussian lter for multiple noise intensities as well as lter
 % sizes. Compare (analytically estimate) what is the computation complexity of the
-% Gaussian lter operation and what is the computational complexity of the median
-%filter using the O(·) notation. (in the median lter we use the quicksort algorithm to
+% Gaussian filter operation and what is the computational complexity of the median
+%filter using the O(·) notation. (in the median filter we use the quicksort algorithm to
 % perform sorting.
 
+input('Press enter to close all figures and continue.'); close all;
 % See simple_median2 for implementation.
 % Testing the implementation:
 L = rgb2gray(imread('lena.png'));	% Parse image.
@@ -103,5 +108,4 @@ subplot(2, 3, 6); imshow(simple_median2(Lns, 3)); title('Median Filtered');
 % size. Do not convert them to grayscale, simply apply the same operations to all three
 % channels and display the result as a color image.
 
-
-lap
+% TODO
