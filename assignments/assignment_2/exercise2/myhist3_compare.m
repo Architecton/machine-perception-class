@@ -1,9 +1,9 @@
 % function [] = myhist3_compare(image_name)
 %
 % Compare runtimes of myhist3 and myhist3_improved on a selected image.
-function [] = myhist3_compare(image_name)
+function [] = myhist3_compare()
 	% Parse image then run and time both functions.
-	I = imread(image_name);
+	I = imread('lena.png');
 
 	disp('Running myhist3...')
 	tic; H1 = myhist3(I, 8); toc

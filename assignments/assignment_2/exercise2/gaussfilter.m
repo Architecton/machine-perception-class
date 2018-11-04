@@ -1,3 +1,6 @@
+% function Ig = gaussfilter(I, sigma)
+%
+% Filter 2-D signal I with gaussian filter with specified parameter sigma.
 function Ig = gaussfilter(I, sigma)
 	g = gauss(sigma);
 	Ig = conv2(g, g, I, 'same');

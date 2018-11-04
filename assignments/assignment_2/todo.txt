@@ -1,0 +1,3 @@
+Sharpening filter
+Comments on laplacian filters and hybridizer
+Comments on median filters

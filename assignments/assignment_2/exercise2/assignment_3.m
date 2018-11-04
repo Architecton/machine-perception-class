@@ -31,7 +31,7 @@ axis equal; axis tight; title('Filtered');
 
 % Question: Which noise is better removed using the Gaussian filter?
 
-% TODO
+% Gaussian noise is better removed by the Gaussian filter.
 
 % (b) %%
 % Another useful filter that you have heard about at the lectures is sharpening filter.
@@ -39,7 +39,21 @@ axis equal; axis tight; title('Filtered');
 % Look for its formulation in the slides, implement it and test it on image museum.jpg .
 % What do you notice?
 
-% TODO
+% See sharpening_filter.m
+input('Press enter to close all figures and continue.'); close all;
+M = rgb2gray(imread('museum.jpg'));
+Is = sharpening_filter(M);
+figure; subplot(1, 2, 1); imagesc(M); colormap gray; title('Original')
+subplot(1, 2, 2); imagesc(Is); colormap gray; title('Filtered with sharpening filter')
+
+% The sharpening filter enhances differences by local averaging.
+%
+% The sharpening filter is a high-pass filter that passes signals that are
+% higher than a cutoff frequency.
+%
+% This can be a problem when dealing with images with a lot of noise. 
+% While low-pass filtering smooths out noise, 
+% high-pass filtering does just the opposite: it amplifies noise.
 
 % (c) %%
 % Implement a nonlinear median filter that has also been mentioned at the lectures. In
@@ -73,7 +87,8 @@ subplot(1, 4, 4); plot(x_m); axis([1, 40, 0, 7]); title('Median');
 % Gaussian filter that can be applied multiple times in any order, does the order
 % matter in case of median filter? What is the name of filters like this?
 
-% TODO
+% The results of the median filter are closer to the input signal. Since
+% the median filter is a non-linear filter, the order matters.
 
 
 % (d) %%
@@ -90,7 +105,7 @@ input('Press enter to close all figures and continue.'); close all;
 % Testing the implementation:
 L = rgb2gray(imread('lena.png'));	% Parse image.
 Lns = imnoise(L,'salt & pepper');	% Add noise.
-Lng = imnoise(I,'gaussian');
+Lng = imnoise(L,'gaussian');
 figure;								% Display results of filtering.
 subplot(2, 3, 1); imshow(Lng); title('Gaussian noise');
 subplot(2, 3, 2); imshow(imgaussfilt(Lng, 2)); title('Gauss Filtered');
@@ -101,11 +116,17 @@ subplot(2, 3, 5); imshow(imgaussfilt(Lns, 2)); title('Gauss Filtered');
 subplot(2, 3, 6); imshow(simple_median2(Lns, 3)); title('Median Filtered');
 
 % (e) %%
-% (5 points) Implement the hybrid image approach that was presented at lectures.
+% Implement the hybrid image approach that was presented at lectures.
 % To do this you also have to implement the Laplacian filter, filter two images (one
 % with Gaussian and one with Laplacian filter) and combine them together. You can
 % use images cat1.jpg and cat2.jpg as a reference since they are both of the same
 % size. Do not convert them to grayscale, simply apply the same operations to all three
 % channels and display the result as a color image.
 
-% TODO
+input('Press enter to close all figures and continue.'); close all;
+% Parse cat pictures.
+C1 = imread('cat1.jpg');
+C2 = imread('cat2.jpg');
+% Compute laplacian of gaussian and visualize results.
+res = hybridize(C1, C2);
+imshow(res)
