@@ -13,6 +13,6 @@ circle_y = sin(linspace(0, 2*pi, 100));
 imshow(I);
 hold on;
 for i = 1 : length(x)
-    plot(circle_x * r(i) + x(i), circle_y * r(i) + y(i), 'g');
+    plot(circle_x * r + x(i), circle_y * r + y(i), 'g');
 end
 hold off;

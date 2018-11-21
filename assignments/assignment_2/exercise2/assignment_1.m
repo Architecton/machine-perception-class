@@ -194,6 +194,9 @@ end
 
 % see histogram_distance_visualization.m
 
+input('Press enter to close all figures and continue.'); close all;
+histogram_distance_visualization
+
 % (h) One of the problems that this simple retrieval system has is strong
 % influence of the dominant colors that are present in all images and therefore carry
 % no discriminative information. Analyze the presence of various colors by summing

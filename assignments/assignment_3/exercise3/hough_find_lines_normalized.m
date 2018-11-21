@@ -1,4 +1,4 @@
-function [out_rho, out_theta] = hough_find_lines(Ie, bins_rho, bins_theta, threshold)
+function [out_rho, out_theta] = hough_find_lines_normalized(Ie, bins_rho, bins_theta, threshold)
 	% max_rho = length(diag(Ie)); % Set maximum value of rho equal to image diagonal length.
 	max_rho = hypot(size(Ie, 1), size(Ie, 2));
 	idx_edges = find(Ie > 1e-2);  % Find indices of nonzero elements in Ie matrix.
@@ -8,9 +8,31 @@ function [out_rho, out_theta] = hough_find_lines(Ie, bins_rho, bins_theta, thres
 	
 	% Get x and y values from linear indices.
 	[x, y] = ind2sub(size(Ie), idx_edges);
+	
 	% compute rho for all values of theta (Solutions of line equations with x and y fixed).
 	% Do this for all values of x and y.
 	rho = x .* cos(val_theta) + y .* sin(val_theta);
+	
+	[X, Y] = meshgrid(val_theta, val_rho);
+	
+	x_intercept1 = (Y - 0.*sin(X)) ./ cos(X);
+	x_intercept1(x_intercept1 > size(Ie, 1)) = size(Ie, 1);
+	x_intercept1(x_intercept1 < 1) = 1;
+	x_intercept2 = (Y - size(Ie, 2).*sin(X)) ./ cos(X);
+	x_intercept2(x_intercept2 < 1) = 1;
+	x_intercept2(x_intercept2 > size(Ie, 1)) = size(Ie, 1);
+	
+	y_intercept1 = (Y - 0.*cos(X)) ./ sin(X);
+	y_intercept1(y_intercept1 > size(Ie, 2)) = size(Ie, 2);
+	y_intercept1(y_intercept1 < 1) = 1;
+	y_intercept2 = (Y - size(Ie, 1).*cos(X)) ./ sin(X);
+	y_intercept2(y_intercept2 > size(Ie, 2)) = size(Ie, 2);
+	y_intercept2(y_intercept2 < 1) = 1;
+	
+	max_dist = ceil(sqrt((x_intercept2 - x_intercept1).^2 + (y_intercept2 - y_intercept1).^2));
+	
+	weights = 1./max_dist;
+	weights(weights == inf) = 0;
 	
 	% Compute bins for rho.
 	bin_rho = round(((rho + max_rho) / (2 * max_rho)) * length(val_rho));
@@ -32,7 +54,7 @@ function [out_rho, out_theta] = hough_find_lines(Ie, bins_rho, bins_theta, thres
 	% Increment corresponding cells in accumulator matrix by number of
 	% times the index appeared as a bin_theta, bin_rho pair.
 	A(unique_lin_indices) = A(unique_lin_indices) + reps;
-	
+	A = A.*(weights).^(1/2);
 	% Find indices of elements greater than threshold.
 	idx_greater = find(A > threshold);
 	

@@ -1,3 +1,8 @@
+% Prompt user to select exercise from this assignment.
+
+sel = input('Select exercise from assignment assignment 1 (enclose enumerator in quotes): ');
+sel = lower(sel);
+
 % (a) 
 % Canny edge detector is one of the most widely-used detectors of edges in images.
 % In this assignment you will implement the rst steps of the Canny's algorithm that
@@ -8,9 +13,11 @@
 % turns a binary matrix Ie that shows the magnitudes that are higher than a specied
 % threshold value theta :
 
-I = rgb2gray(imread('museum.jpg'));  % Parse image.
-Ie = findedges(I, 2, 20);			 % Find edges by setting treshold.
-imagesc(Ie); colormap gray;			 % Display results.
+if sel == 'a'
+	I = rgb2gray(imread('museum.jpg'));  % Parse image.
+	Ie = findedges(I, 2, 20);			 % Find edges by setting treshold.
+	imagesc(Ie); colormap gray;			 % Display results.
+end
 
 % (b) %
 % The function above returns a first approximation of the detected edges. Unfortu-
@@ -23,12 +30,13 @@ imagesc(Ie); colormap gray;			 % Display results.
 % to the neighborhood magnitudes. Go through the code and analyze each line. Test
 % the modified function findedges and visualize the result.
 
-% See findedges2.m
+if sel == 'b'
+	% See findedges2.m
 
-% Test function.
-input('Press enter to close all figures and continue.'); close all;
-Ie = findedges2(I, 2);
-imagesc(Ie); colormap gray;
+	% Test function.
+	Ie = findedges2(I, 2);
+	imagesc(Ie); colormap gray;
+end
 
 % (c) % Non-maxima suppression algorithm can be implemented using ma-
 % trix operations that results in significant performance improvements. Hint: function
@@ -41,12 +49,12 @@ imagesc(Ie); colormap gray;
 % rithm, you have to show result equality for all non-border elements and signicantly
 % increased computational performance.
 
-input('Press enter to close all figures and continue.'); close all;
-% See nonmaxima_suppresion_line_improved.m
+if sel == 'c'
+	% See nonmaxima_suppresion_line_improved.m
 
-% Run comparison script.
-nonmaxima_suppresion_comparison
-
+	% Run comparison script.
+	nonmaxima_suppresion_comparison
+end
 
 % (d) % The last step of the Canny's algorithm is edge tracking using hysteresis
 % thresholding. Replace the normal thresholding at the end of function findedges
@@ -56,16 +64,17 @@ nonmaxima_suppresion_comparison
 % for connected components in which all pixel values are above t_{low} and at least one
 % value is also above I_{high} , where t_{low} < t_{high}. Any innovative solution to this task will
 % be accepted if it avoids explicit loops whenever possible.
-input('Press enter to close all figures and continue.'); close all;
+if sel == 'd'
 
-% TODO: why don't the results match with example in the instructions??
-% See hysteresis_tresh.m and findedges3.m
-I = rgb2gray(imread('museum.jpg'));
-figure; subplot(2, 2, 1);
-imshow(I); title('original');
-Ie1 = findedges(I, 1, 50);
-subplot(2, 2, 2); imagesc(Ie1); colormap gray; title('tresholded (t = 50)');
-Ie2 = findedges2(I, 1);
-subplot(2, 2, 3); imagesc(Ie2); colormap gray; title('Nonmax. supp. (t = 50)');
-Ie3 = findedges3(I, 1, 50, 20);
-subplot(2, 2, 4); imagesc(Ie3); colormap gray; title('Hysteresis (high = 50, low = 20)');
+	% TODO: why don't the results match with example in the instructions??
+	% See hysteresis_tresh.m and findedges3.m
+	I = rgb2gray(imread('museum.jpg'));
+	figure; subplot(2, 2, 1);
+	imshow(I); title('original');
+	Ie1 = findedges(I, 1, 50);
+	subplot(2, 2, 2); imagesc(Ie1); colormap gray; title('tresholded (t = 50)');
+	Ie2 = findedges2(I, 1);
+	subplot(2, 2, 3); imagesc(Ie2); colormap gray; title('Nonmax. supp. (t = 50)');
+	Ie3 = findedges3(I, 1, 50, 20);
+	subplot(2, 2, 4); imagesc(Ie3); colormap gray; title('Hysteresis (high = 50, low = 20)');
+end

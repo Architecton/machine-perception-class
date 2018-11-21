@@ -47,16 +47,12 @@ function [out_rho, out_theta, A] = hough_find_lines_informed(Ie, Idir, bins_rho,
 	
 	% Get mask of valid bin_rho values (that are not out of bounds).
 	valid = bin_rho > 0 & bin_rho <= bins_rho;
-	% Set invalid bin_rho values to 1. This will be handled later.
-	bin_rho(not(valid)) = 1;
+	% Set invalid bin_rho values to nan. This will be handled later.
+	bin_rho(not(valid)) = nan;
 	% Get linear indices for indexing into accumulator matrix for incrementation.
 	lin_indices = sub2ind(size(A), bin_rho(:), bin_theta(:));
-	
-	% Get mask for invalid pairs of bin_rho and bin_theta values and get linear indices of these elements.
-	invalid_bin_rho = bin_rho(not(valid));
-	invalid_bin_theta = bin_theta(not(valid));
-	lin_indices_invalid = sub2ind(size(A), invalid_bin_rho(:), invalid_bin_theta(:));
-	
+	% Remove nan values that are the result of invalid bins.
+	lin_indices = lin_indices(~isnan(lin_indices));
 	% Get unique linear indices for accumulator matrix incrementation.
 	unique_lin_indices = unique(lin_indices);
 	% Get repetitions of unique indices.
@@ -64,12 +60,6 @@ function [out_rho, out_theta, A] = hough_find_lines_informed(Ie, Idir, bins_rho,
 	% Increment corresponding cells in accumulator matrix by number of
 	% times the index appeared as a bin_theta, bin_rho pair.
 	A(unique_lin_indices) = A(unique_lin_indices) + reps;
-	
-	% Get unique linear indices of invalid elements and their repetitions.
-	unique_lin_indices_invalid = unique(lin_indices);
-	reps_invalid = histc(lin_indices_invalid, unique_lin_indices_invalid);
-	% Decrement values that were result of handling out of bounds indices.
-	A(unique_lin_indices_invalid) = A(unique_lin_indices_invalid) - reps_invalid;
 
 	% Find indices of elements greater than threshold.
 	idx_greater = find(A > threshold);

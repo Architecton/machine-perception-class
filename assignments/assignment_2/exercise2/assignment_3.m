@@ -115,6 +115,12 @@ subplot(2, 3, 4); imshow(Lns); title('Salt and pepper');
 subplot(2, 3, 5); imshow(imgaussfilt(Lns, 2)); title('Gauss Filtered');
 subplot(2, 3, 6); imshow(simple_median2(Lns, 3)); title('Median Filtered');
 
+% To perform median filtering we must sort the elements in the neighborhood
+% (O(nlogn)) and then find the median of the sorted elements (O(n)). 
+% Since we must perform filtering on x*y neighborhoods
+% (x and y are the dimensions of the image), the time complexity is
+% O(xynlogn).
+
 % (e) %%
 % Implement the hybrid image approach that was presented at lectures.
 % To do this you also have to implement the Laplacian filter, filter two images (one

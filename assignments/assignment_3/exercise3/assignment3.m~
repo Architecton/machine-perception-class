@@ -210,29 +210,21 @@ end
 
 % See hough_find_lines_normalized.
 if sel == 'i'
-	% Plot some examples.
-	E = zeros(100);
+	
+	E = zeros(100); % 100 x 100 pixel image
 	E(10, 10) = 1;
 	E(20, 20) = 1;
 	
-	% Compute and plot results of normalized and non-normalized Hough transforms.
 	[rb1, tb1] = hough_find_lines_normalized(E, 300, 300, 0);
 	[rb2, tb2] = hough_find_lines(E, 300, 300, 0);
+	figure; clf; hough_draw_lines(E, rb2(1:5), tb2(1:5)); title('Non-normalized')
+	figure; clf; hough_draw_lines(E, rb1(1:5), tb1(1:5)); title('Normalized')
 	
-	figure; hough_draw_lines(E, rb2(1:5), tb2(1:5)); title('Non-normalized')
-	pause(1);
-	figure; hough_draw_lines(E, rb1(1:5), tb1(1:5)); title('Normalized')
-	pause(1);
-	
-	% Parse and pre-process another test image.
 	I = imread('airport.jpg');
 	Ie = findedges2(rgb2gray(I), 2);
-	
-	% Compute and plot results of normalized and normalized Hough transform.
 	[rb3, tb3] = hough_find_lines(Ie, 1000, 1000, 0);
 	[rb4, tb4] = hough_find_lines_normalized(Ie, 1000, 1000, 0);
-	figure; hough_draw_lines(I, rb3(1:30), tb3(1:30)); title('Non-normalized')
-	pause(1);
+	figure; clf; hough_draw_lines(I, rb3(1:30), tb3(1:30)); title('Non-normalized')
 	figure; hough_draw_lines(I, rb4(1:30), tb4(1:30)); title('Normalized')
-	% Notice the difference in the upper right corner.
+	
 end

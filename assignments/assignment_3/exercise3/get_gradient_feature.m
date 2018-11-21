@@ -22,9 +22,9 @@ function [feature] = get_gradient_feature(I, sigma)
 			[~, ~, bin_indices] = histcounts(Idir(ridx, cidx), 8);
 			Mags = Imag(ridx, cidx);  % Get gradient magnitudes for region.
 			h = accumarray(bin_indices(:), Mags(:));  % Add magnitudes to bins.
-			
 			% Add computed histogram to feature vector.
-			feature(f_idx*8+1:f_idx*8 + 8) = h;
+			len_add = length(feature(f_idx*8+1:f_idx*8 + 8));
+			feature(f_idx*8+1:f_idx*8 + 8) = [h', zeros([1, len_add - length(h)])];
 			f_idx = f_idx + 1;  % Increment feature vector counter.
 			% ###########################################################
 		end
