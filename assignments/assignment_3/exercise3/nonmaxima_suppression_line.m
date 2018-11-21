@@ -6,6 +6,7 @@
 function Imax = nonmaxima_suppression_line(Imag, Idir)
 	[h, w] = size(Imag);  % Get height and width of image.
 	Imax = zeros(h,w);    % Allocate matrix for result image.
+	% Comparison direction lookup table
 	offx = [-1 -1 0 1 1 1 0 -1 -1];
 	offy = [ 0 -1 -1 -1 0 1 1 1 0];
 	for y = 1:h			  % Go over pixels in image.

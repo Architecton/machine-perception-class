@@ -14,7 +14,7 @@ function [out_rho, out_theta, A] = hough_find_lines_informed(Ie, Idir, bins_rho,
 	idx_snd_q = val_theta > pi/2 & val_theta <= pi;  % Handle angles in second quadrant.
 	val_theta(idx_snd_q) = val_theta(idx_snd_q) - pi;  
 	
-	% Get perpendicular directions.
+	% Get perpendicular directions (direction of line).
 	idx_positive = val_theta > 0;
 	idx_negative = val_theta < 0;
 	val_theta(idx_positive) = val_theta(idx_positive) - pi/2;

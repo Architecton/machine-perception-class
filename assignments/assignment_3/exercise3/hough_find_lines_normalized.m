@@ -13,8 +13,14 @@ function [out_rho, out_theta] = hough_find_lines_normalized(Ie, bins_rho, bins_t
 	% Do this for all values of x and y.
 	rho = x .* cos(val_theta) + y .* sin(val_theta);
 	
+	% Make a meshgrid of theta and rho values. The function that computes
+	% the maximal number of votes for each cell in the accumulator array is
+	% a twovariate function of rho and theta.
 	[X, Y] = meshgrid(val_theta, val_rho);
 	
+	% Compute intercepts with the upper and lower boundaries of the image.
+	% If intercept value greater or smaller than image size, set x to
+	% maximal possible value.
 	x_intercept1 = (Y - 0.*sin(X)) ./ cos(X);
 	x_intercept1(x_intercept1 > size(Ie, 1)) = size(Ie, 1);
 	x_intercept1(x_intercept1 < 1) = 1;
@@ -22,6 +28,9 @@ function [out_rho, out_theta] = hough_find_lines_normalized(Ie, bins_rho, bins_t
 	x_intercept2(x_intercept2 < 1) = 1;
 	x_intercept2(x_intercept2 > size(Ie, 1)) = size(Ie, 1);
 	
+	% Compute intercepts with the left and right boundaries of the image.
+	% If intercept value greater or smaller than image size, set y to
+	% maximal possible value.
 	y_intercept1 = (Y - 0.*cos(X)) ./ sin(X);
 	y_intercept1(y_intercept1 > size(Ie, 2)) = size(Ie, 2);
 	y_intercept1(y_intercept1 < 1) = 1;
@@ -29,9 +38,13 @@ function [out_rho, out_theta] = hough_find_lines_normalized(Ie, bins_rho, bins_t
 	y_intercept2(y_intercept2 > size(Ie, 2)) = size(Ie, 2);
 	y_intercept2(y_intercept2 < 1) = 1;
 	
-	max_dist = ceil(sqrt((x_intercept2 - x_intercept1).^2 + (y_intercept2 - y_intercept1).^2));
+	% Compute maximal number of votes for each cell in the accumulator
+	% array. Use pythagorean theorem to get lengths of lines with given
+	% theta and rho in the original image.
+	max_votes = ceil(sqrt((x_intercept2 - x_intercept1).^2 + (y_intercept2 - y_intercept1).^2));
 	
-	weights = 1./max_dist;
+	% Compute weights (also handle division by zero).
+	weights = 1./max_votes;
 	weights(weights == inf) = 0;
 	
 	% Compute bins for rho.
@@ -54,6 +67,7 @@ function [out_rho, out_theta] = hough_find_lines_normalized(Ie, bins_rho, bins_t
 	% Increment corresponding cells in accumulator matrix by number of
 	% times the index appeared as a bin_theta, bin_rho pair.
 	A(unique_lin_indices) = A(unique_lin_indices) + reps;
+	% Use weights. Take second root to make weighting slightly less extreme.
 	A = A.*(weights).^(1/2);
 	% Find indices of elements greater than threshold.
 	idx_greater = find(A > threshold);
